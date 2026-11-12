@@ -1,0 +1,54 @@
+Lab 11: Debugging and Testing
+
+Q1. Is there a fault in the program?
+
+Yes, there is a fault in the program. The for loop in the `failLecture()` function starts at index 1 instead of index 0. 
+Since C++ vectors use zero-based indexing, this causes the program to skip the first lecture when counting absences. 
+The fault is located in the initialization statement of the for loop:
+
+for (int i = 1; i < attendance_records.size(); ++i)
+
+The correct starting index should be 0.
+
+Q2. Define a test case that does not execute the fault.
+
+It is impossible to create a valid test case that does not execute the fault. Every valid attendance record contains 10 values, 
+and the loop executes from index 1 through index 9. Therefore, the faulty loop will always execute for every valid attendance record.
+
+Q3. Define a test case that executes the fault but does not result in an error state.
+
+Attendance record: [1, 1, 1, 1, 1, 1, 1, 0, 0, 0]
+
+- Expected absence count: 3
+- Actual absence count: 3
+- Expected output: Fail
+- Actual output: Fail
+
+The faulty loop executes but skips the first attendance value, which is 1 (present). Therefore, skipping this value does not change 
+the absence count. The actual absence count remains correct, and no error state occurs.
+
+Q4. Define a test case that results in an error state but not a failure.
+
+Attendance record: [0, 0, 1, 1, 1, 1, 1, 1, 1, 1]
+
+- Expected absence count: 2
+- Actual absence count: 1
+- Expected output: Pass
+- Actual output: Pass
+
+The faulty loop skips the first attendance value, which is 0 (absent). This causes the actual absence count to be incorrect, 
+creating an error state. However, both the expected and actual absence counts are below the failure threshold of 3. Therefore, 
+the program still produces the correct output, and no failure occurs.
+
+ Q5. Define a test case that results in failure.
+
+Attendance record: [0, 0, 0, 1, 1, 1, 1, 1, 1, 1]
+
+- Expected absence count: 3
+- Actual absence count: 2
+- Expected output: Fail
+- Actual output: Pass
+
+The faulty loop skips the first attendance value, which is 0 (absent). Consequently, the program counts only two absences instead of three. 
+Since three absences are required for a student to fail, the program incorrectly reports that the student passes. This is a failure because 
+the program's externally observable output is incorrect.
